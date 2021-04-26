@@ -1,0 +1,400 @@
+------------------------------------------------------
+:: Instalacion de proyecto laravel usando composer ::
+------------------------------------------------------
+Escribe en la consola el siguiente comando:
+
+     composer create-project --prefer-dist laravel/laravel nombre_proyecto
+
+     composer create-project laravel/laravel example-app ### para laravel 8
+
+Se recomienda que se haga esto el la ruta dentro del servidor local, ej c:\xampp\htdoc\
+
+------------------------------------------------------
+:: Modelado de la base de datos mysql              ::
+------------------------------------------------------
+Para el Modelado de la base de datos se recomienda usar mysql workbench para windows
+
+En cuanto a los nombres de las tablas se recomienda analizar bien el nombre ya que debido a que cuando
+se empiecen a realizar los modelos, laravel cambiara el nombre y lo pondra en plural
+
+Otra cosa que debes de tener en cuenta es la secuencia en que crearas los modelos, me explico, si tu 
+modelo de base de datos tiene dos tablas relacionadas y creas hija luego la padre al momento de realizarla 
+migracion con laravel te mostrara un error.
+
+Para solucionar lo ultimo descrito se puede realizar lo siguiente, ej:
+
+creaste por error 2020_02_24_135635_create_permisologias_table y la clave foranea es de esta tabla 
+2020_02_24_135700_create_perfiles_table, bueno la solucion es sencilla, renombra las tablas, es decir,
+a la primera le vas a colocar el 4to grupo de 6 digitos de la segunda tabla y viceversa y luego corre:
+
+    php artisan migrate:fresh
+
+Te recomiendo este *** T R U C O ***:
+
+Al m9delar la base de datos con mysql workbench date clic a database/forward engineer, completa todos 
+los pasos y te aparecera una ventana con todo el script para la creacion de la base de datos con la
+secuencia correcta de creacion de tablas, asi que se evita tener que efectuar el truco anterior
+con las migraciones.
+
+     -----------------------------------------------------------------------------
+     *** C R E A C I O N   D E   V I E W S   E N   M Y S Q L   W O R K B E C H ***
+     -----------------------------------------------------------------------------
+
+la creacion de vistas es lo mas facil, selecciona la opcion de creacion de vista en le panel lateral
+derecho de la plantilla de modelado de la base de datos, se creara un rectangulo de color amarillo
+hazle doble clic sobre él, se abrira un area de edicion en la parte inferior del area de trabajo, 
+con el siguiente texto: 
+
+CREATE VIEW `nombre_de_la_vista` AS
+
+abajo de este texto solo debes hacer el select que requieres y listo, otra cosa, te recomiendo que 
+antes de compilarlo le des clic en el boton guardar del editor eso te va abrir una ventana de 
+guardar como colocale el mismo nombre y guardalo en una carpeta dentro del proyecto, con el fin 
+de que cuando lo compiles y no funciones, no comiences de cero el script ;-)
+
+     -------------------------------------------------------------------------------
+     *** C R E A C I O N  DE  A R C H I V O S  S E E D E R S  E N  L A R A V E L ***
+     -------------------------------------------------------------------------------
+
+para crear un archivor seeder debes usar el siguiente comando:
+
+php artisan make:seeder nombre_entidadTableSeeder
+                                      -----------
+                                           |
+                                        Esto debe ser 
+                                        escrito asi es
+                                        una constante
+
+la ruta en donde se crea el archivo seeder es la siguiente:
+
+          [ nombre_del_proyecto\database\seeds ]
+
+para configurar el archivo seeder debes hacer lo siguiente:
+
+1) en la parte superior del archivo se definen las librerias, para que el seed funcione adecuadamente
+debes colocar 'use' con la direccion de la entidad, para conseguir esa direccion, debes abrir el 
+archivo de la entidad y copia el namespace del modelo, ejemplo:
+
+use App\nombre_entidad;
+
+2) en la 'publict function run()' vas a colocar el nombre de la entidad, ejemplo
+
+          nombre_entidad::create('
+                 'nombre_campo1' => 'valor que se va guardar'
+                 'nombre_campo2' => 'valor'
+                 ...
+          ');
+
+          nombre_entidad::create('
+                 'nombre_campo1' => 'valor que se va guardar'
+                 'nombre_campo2' => 'valor'
+                 ...
+          ');
+
+          ...
+
+en este ejemplo se van a crear 2 registros y mientras mas create coloques
+mas registros se guardaran
+
+3) edita el archivo nombre_proyecto\database\seeds\DatabaseSeeder.php
+
+descomenta el fragmento de codigo de la function run()
+
+     $this->call(nombre_entidadTableSeeder::class);
+
+4) ejecuta el siguiente comando en la terminal:
+
+php artisan migrate
+
+NOTA IMPORTANTE:
+---------------
+
+si resulta que manda un error al ejecutar el archivo seeder, debes 
+hacer lo siguiente para solucionarlo:
+     4.1- edita el archivo '.env' de tu proyecto y modifica lo 
+     siguiente:
+
+          CACHE_DRIVER=file
+
+          sustitituyelo por
+          
+          CACHE_DRIVER=array
+     
+     y guarda el cambio en el archivo
+
+     4.2- en la consola ejecuta los siguientes comandos:
+          php artisan config:clear
+          php artisan config:cache
+
+     4.3- ejecuta el comando:
+          php artisan migrate:refresh --seed
+
+     problema solucionado ;-)
+
+-------------------------------------------------------------
+*** SOLUCION DE ERROR AL MOMENTO DE EJECUTAR LA MIGRACION ***
+--------------------------------------------------------------
+
+en caso de que al momento de ejecutar la migracion con el comando:
+     php artisan migrate
+
+debe ser por que falta la configuracion de la longitud de un tipo de dato, para solucionarlo
+debes editar el siguiente archivo:
+
+     nombre_proyecto\app\Providers\AppServiceProvider.php
+
+dentro de este archivos vas a colocar lo siguiente:
+     1) use Illuminate\Support\Facades\Schema;
+     2) Schema::defaultStringLength(191);
+         esta segunda la vas a colocar en la function boot()
+
+guarda los cambios y listo ejecuta 
+
+     php artisan migrate:refresh
+
+
+
+
+
+
+---------------------------------------------------------------------
+*** I N S T A L A C I O N  D E  L A R A V E L C O L L E C T I V E ***
+---------------------------------------------------------------------
+
+para instalar laravelcollective debes ejecutar el siguiente comando dentro de la carpeta del
+proyecto:
+
+     composer require laravelcollective/html
+
+para configurarlo debes editar el siguiente archivo:
+     nombre_proyecto\config\app.php
+
+en el archivo vas a dirigirte a los providers y coloca este de ultimo:
+     'providers' => [
+          // ...
+               Collective\Html\HtmlServiceProvider::class,
+          // ...
+     ],
+
+luego dentro de ese mismo archivo buscas los aliases y colocas estos de ultimo:
+     'aliases' => [
+           // ...
+               'Form' => Collective\Html\FormFacade::class,
+               'Html' => Collective\Html\HtmlFacade::class,
+          // ...
+     ],
+
+-------------------------------------------------
+*** I N S T A L A C I O N  D E  S H I N O B I ***
+-------------------------------------------------
+
+para instalar shinobi debes ejecutar el siguiente comando dentro de la carpeta del proyecto:
+     
+     composer require caffeinated/shinobi
+
+para configurarlo debes editar el siguiente archivo:
+     nombre_proyecto\app\Provider.php
+
+en el archivo vas a dirigirte a los providers y coloca este de ultimo:
+     Caffeinated\Shinobi\ShinobiServiceProvider::class,
+
+luego ejecuta este comando que lo pone la pagina oficial:
+
+php artisan vendor:publish --provider="Caffeinated\Shinobi\ShinobiServiceProvider" --tag="config"
+
+despues tienes que configurar lo siguiente:
+
+en el archivo app/User.php
+
+coloca lo siguiente:
+
+     use Caffeinated\Shinobi\Concerns\HasRolesAndPermissions;
+
+     class User extends Authenticatable
+     {
+          use Notifiable, HasRolesAndPermissions;
+                        ------------------------ 
+                         agrega esto al use que
+                         se encuentra dentro de
+                         la clase
+
+***************************************************
+debes crear el siguiente archivo
+***************************************************
+en la ruta vendor\Caffeinated\Shinobi\src\Middleware\UserHasPermission.php
+
+y dentro del este, copia el siguiente codigo:
+
+               <?php
+
+               namespace Caffeinated\Shinobi\Middleware;
+
+               use Caffeinated\Shinobi\Models\Role;
+               use Closure;
+               use Illuminate\Contracts\Auth\Guard;
+
+               class UserHasPermission
+               {
+                    /**
+                    * @var Illuminate\Contracts\Auth\Guard
+                    */
+                    protected $auth;
+
+                    /**
+                    * Create a new UserHasPermission instance.
+                    *
+                    * @param Guard $auth
+                    */
+                    public function __construct(Guard $auth)
+                    {
+                    $this->auth = $auth;
+                    }
+
+                    /**
+                    * Run the request filter.
+                    *
+                    * @param \Illuminate\Http\Request $request
+                    * @param \Closure                 $closure
+                    * @param array|string             $permissions
+                    *
+                    * @return mixed
+                    */
+                    public function handle($request, Closure $next, $permissions)
+                    {
+                    if ($this->auth->check()) {
+                         if (!$this->auth->user()->can($permissions)) {
+                              if ($request->ajax()) {
+                                   return response('Unauthorized.', 403);
+                              }
+
+                              abort(403, 'Unauthorized action.');
+                         }
+                    } else {
+                         $guest = Role::whereSlug('guest')->first();
+
+                         if ($guest) {
+                              if (!$guest->can($permissions)) {
+                                   if ($request->ajax()) {
+                                        return response('Unauthorized.', 403);
+                                   }
+
+                                   abort(403, 'Unauthorized action.');
+                              }
+                         }
+                    }
+
+                    return $next($request);
+                    }
+               }
+
+*****************************************************
+modifica el siguiente archivo
+*****************************************************
+app\Http\Kernel.php
+
+busca este arreglo, agrega los 2 ultimos 'has.roles' y 'has.permission'
+protected $routeMiddleware = [
+        'auth' => \App\Http\Middleware\Authenticate::class,
+        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
+        'can' => \Illuminate\Auth\Middleware\Authorize::class,
+        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
+        'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
+        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'has.role' => \Caffeinated\Shinobi\Middleware\UserHasRole::class,
+        'has.permission' => \Caffeinated\Shinobi\Middleware\UserHasPermission::class,
+    ];
+guarda el archivo y listo
+
+--------------------------------------------------------
+*** creacion de modelo en laravel ***
+--------------------------------------------------------
+
+para crear el modelo de la tabla, la migracion, el seed (semillas), el factory y el controlador con recursos de 
+crud ejecuta el siguiente comando:
+
+     php artisan make:model nombre_modelo -a
+
+--------------------------------------------------------
+*** instalacion de vuejs ****
+--------------------------------------------------------
+
+para la instalacion de vuejs, primeramente actualiza el node, descarga la ultima version e instalala,
+luego de haber instalado el nuevo proyecto de laravel, metete en la carpeta del proyecto y ejecuta el siguiente
+comando:
+
+     composer require laravel/ui
+
+luego de haber terminado la instalacion de las nuevas librerias vas a ejecutar de manera secuencial los
+siguientes comandos:
+
+     php artisan ui bootstrap
+
+     php artisan ui vue
+
+     php artisan ui bootstrap --auth
+
+     php artisan ui vue --auth 
+     Nota: responde a las preguntas que te van aparecer en la consola con "yes" y presiona enter
+
+luego ejecutaras el siguiente comando:
+
+     npm install
+
+y listo ya tienes instalado VueJs en tu proyecto
+
+
+iniciar xampp en linux
+
+pasos: 
+1) descarga de https://www.apachefriends.org/ la version linux de xammp
+
+2) darle permiso al archivo de instalacion con el siguiente comando:
+          chmod 755 xampp-linux-*-installer.run
+
+3) ejecuta el instalador con el siguiente comando:
+          sudo ./xampp-linux-*-installer.run
+
+4) iniciar los servicios con el siguiente comando:
+          sudo /opt/lampp/lampp start
+
+manejador visual de xampp en linux
+
+ejecute a traves de consola de la siguiente forma:
+          sudo /opt/lampp/manager-linux-x64.run
+
+
+--------------------------------------------------------
+*** MIGRACIONES Y MODELOS ***
+--------------------------------------------------------
+
+para la parte de las migraciones y modelos se debe ejecutar el siguiente comando
+
+          php artisan make:medel -a nombre_modelo
+
+con este comando se creara no solo el modelo sino que ademas las se crearan los
+controladores, los factories, y las semillas.
+
+para poder hacer que el modelo funcione por completo se debe editar el modelo y 
+agregar el siguiente codigo:
+
+    /**
+    * The table associated with the model.
+    *
+    * @var string
+    */
+   protected $table = 'nombre_tabla';
+
+   protected $primaryKey = 'id_campo';
+   
+   protected $fillable = [
+    'nombre_campo',
+    .
+    .
+    .
+    ];
+
+en la parte de $fillable agregue la cantidad de campos que posea la tabla
