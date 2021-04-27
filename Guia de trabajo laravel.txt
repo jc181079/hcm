@@ -398,3 +398,34 @@ agregar el siguiente codigo:
     ];
 
 en la parte de $fillable agregue la cantidad de campos que posea la tabla
+
+------------------------------------------------------------------------
+*** MODIFICAR ESTRUCTURA DE LA TABLA USERS Y SU FORMULARIO DE REGISTRO
+------------------------------------------------------------------------
+
+1)   modifica el modelo users encontrado en la carpeta 'app/' luego 
+     en fillable agrega el campo que deseas.
+
+2)   modifica en controlador de encontrado en 'app/Http/Controllers/Auth'
+     agrega el campo que deseas en el validator como ves a continuacion:
+
+     return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255'],
+            'campo_nuevo' => ['required', 'integer', 'min:8'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+     
+     pila, debes saber que tipo de dato es el nuevo campo
+
+     luego se prosigue con modificar la funcion de creacion agregando el campo nuevo
+     como se muestra a continuacion:
+
+     return User::create([
+            'name' => $data['name'],
+            'campo_nuevo' => $data['campo_nuevo'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
+
+3)   se modifica el formulario de registro ''
