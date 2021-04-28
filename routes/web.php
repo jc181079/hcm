@@ -25,4 +25,3 @@ Route::resource('carga_familiar','CargaFamiliarController');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
