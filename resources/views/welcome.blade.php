@@ -7,7 +7,8 @@
         <title>Laravel</title>
 
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
+        <!--link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet"-->
+        
 
         <!-- Styles -->
         <style>
@@ -83,6 +84,7 @@
                 <div class="title m-b-md">
                     Laravel
                 </div>
+                <div id="example"></div>
 
                 <div class="links">
                     <a href="https://laravel.com/docs">Docs</a>
@@ -97,4 +99,5 @@
             </div>
         </div>
     </body>
+    <script src="js/app.js" type="text/javascript"></script>
 </html>

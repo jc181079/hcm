@@ -11,7 +11,7 @@ class municipio extends Model
     *
     * @var string
     */
-   protected $table = 'municipio';
+   protected $table = 'municipios';
 
    protected $primaryKey = 'id_municipio';
    

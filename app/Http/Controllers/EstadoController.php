@@ -14,7 +14,8 @@ class EstadoController extends Controller
      */
     public function index()
     {
-        //
+        $estado=estado::paginate(10);
+        return view('estados.index',compact('estado'));
     }
 
     /**
@@ -24,7 +25,21 @@ class EstadoController extends Controller
      */
     public function create()
     {
-        //
+        $estado = estado::paginate(10);
+        //dd($estado);
+        if ($estado){
+            $estadosNuevos=['Bolivar','Angostura','Miranda','Zulia','Barinas','Merida','Sucre','Amazonas','Cojedes','Apure',
+            'Aragua','Carabobo','Delta Amacuro','Falcon','Distrito capital','Guarico','Lara','Merida','Monagas','Nueva esparta',
+            'Portuguesa','Tachira','Trujillo','Vargas','Yaracuy'
+            ];
+            foreach ($estadosNuevos as $estados) {
+                estado::create(['nom_estado'=>$estados,'updated_at'=>'','created_at']);
+            }
+            return back()->with('info', '¡Los estados se guardaron correctamente!');
+
+        }else{
+            return back()->with('info', '¡Los estados ya se crearon!');
+        }
     }
 
     /**

@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Gobernacion del estado bolivar | Panel de Control</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -27,6 +28,7 @@
   <link rel="stylesheet" href="{{ asset('bower_components/bootstrap-daterangepicker/daterangepicker.css') }}">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="{{ asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
+  
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -352,8 +354,8 @@
             <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Examenes de laboratorios</a></li>
             <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Examenes en clinicas</a></li>
             <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i> Especialidades de medicina</a></li>
-            <li><a href="pages/layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Estados</a></li>
-            <li><a href="pages/layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Municipios</a></li>
+          <li><a href="{{ route('estados.index')}}"><i class="fa fa-circle-o"></i> Estados</a></li>
+            <li><a href="{{ route('municipios.index')}}"><i class="fa fa-circle-o"></i> Municipios</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -365,11 +367,11 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i> Usuarios</a></li>
-            <li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i> Permisos </a></li>
-            <li><a href="pages/UI/buttons.html"><i class="fa fa-circle-o"></i> Permisos de usuarios</a></li>
-            <li><a href="pages/UI/sliders.html"><i class="fa fa-circle-o"></i> Reglas</a></li>
-            <li><a href="pages/UI/timeline.html"><i class="fa fa-circle-o"></i> Reglas de permisos</a></li>
+            <li><a href="{{ route('usuarios.index') }}"><i class="fa fa-circle-o"></i> Usuarios</a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i> Permisos </a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i> Permisos de usuarios</a></li>
+            <li><a href="{{ route('reglas.index') }}"><i class="fa fa-circle-o"></i> Reglas</a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i> Reglas de permisos</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -442,6 +444,17 @@
     <!-- Main content -->
     <section class="content">
         <main class="py-4">
+          @if (session('info'))
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <div class="alert alert-success">
+                                {{ session('info') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+            @endif
             @yield('content')
         </main>
     </section>
@@ -662,22 +675,22 @@
 <!-- Bootstrap 3.3.7 -->
 <script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 <!-- Morris.js charts -->
-<script src="{{ asset('bower_components/raphael/raphael.min.js') }}"></script>
-<script src="{{ asset('bower_components/morris.js/morris.min.js') }}"></script>
+<!--script src="{{ asset('bower_components/raphael/raphael.min.js') }}"></script>
+<script src="{{ asset('bower_components/morris.js/morris.min.js') }}"></script-->
 <!-- Sparkline -->
 <script src="{{ asset('bower_components/jquery-sparkline/dist/jquery.sparkline.min.js') }}"></script>
 <!-- jvectormap -->
-<script src="{{ asset('plugins/jvectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
-<script src="{{ asset('plugins/jvectormap/jquery-jvectormap-world-mill-en.js') }}"></script>
+<!--script src="{{ asset('plugins/jvectormap/jquery-jvectormap-1.2.2.min.js') }}"></script-->
+<!--script src="{{ asset('plugins/jvectormap/jquery-jvectormap-world-mill-en.js') }}"></script-->
 <!-- jQuery Knob Chart -->
 <script src="{{ asset('bower_components/jquery-knob/dist/jquery.knob.min.js') }}"></script>
 <!-- daterangepicker -->
-<script src="{{ asset('bower_components/moment/min/moment.min.js') }}"></script>
-<script src="{{ asset('bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+<!--script src="{{ asset('bower_components/moment/min/moment.min.js') }}"></script>
+<script src="{{ asset('bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script-->
 <!-- datepicker -->
-<script src="{{ asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+<!--script src="{{ asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script-->
 <!-- Bootstrap WYSIHTML5 -->
-<script src="{{ asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script>
+<!--script src="{{ asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script-->
 <!-- Slimscroll -->
 <script src="{{ asset('bower_components/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
 <!-- FastClick -->
@@ -688,5 +701,7 @@
 <script src="{{ asset('dist/js/pages/dashboard.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('dist/js/demo.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+
 </body>
 </html>

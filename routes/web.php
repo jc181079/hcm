@@ -22,6 +22,13 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('carga_familiar','CargaFamiliarController');
+Route::resource('usuarios','UsuarioController');
+Route::resource('reglas','RoleController');
+Route::resource('estados','EstadoController');
+Route::resource('municipios','MunicipioController');
+Auth::routes();
+
 
 Auth::routes();
 
+Route::get('/home', 'HomeController@index')->name('home');
