@@ -26,6 +26,7 @@ Route::resource('usuarios','UsuarioController');
 Route::resource('reglas','RoleController');
 Route::resource('estados','EstadoController');
 Route::resource('municipios','MunicipioController');
+Route::resource('clinicas','ClinicaController');
 Auth::routes();
 
 

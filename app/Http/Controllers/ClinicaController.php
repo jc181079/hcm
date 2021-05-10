@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\clinica;
+use App\estado;
 use Illuminate\Http\Request;
 
 class ClinicaController extends Controller
@@ -14,7 +15,8 @@ class ClinicaController extends Controller
      */
     public function index()
     {
-        //
+        $clinica=clinica::paginate(10);
+        return view('clinicas.index',compact('clinica'));
     }
 
     /**
@@ -24,7 +26,8 @@ class ClinicaController extends Controller
      */
     public function create()
     {
-        //
+        $estado=estado::pluck('nom_estado','id_estado')->toArray();
+        return view('clinicas.create',compact('estado'));
     }
 
     /**
