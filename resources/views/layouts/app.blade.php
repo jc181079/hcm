@@ -18,6 +18,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 </head>
 <body>
     <div id="app">
@@ -74,8 +75,12 @@
 
         <main class="py-4">
             @yield('content')
+            
         </main>
     </div>
+    listo
+    @yield('script2')
 </body>
-<script src="{{ asset('js/app.js') }}" defer></script>
+
+
 </html>

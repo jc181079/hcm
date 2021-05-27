@@ -39,6 +39,7 @@
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <script src="./././node_modules/axios/dist/axios"></script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -455,6 +456,17 @@
                     </div>
                 </div>                
             @endif
+            @if (session('warning'))
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <div class="alert alert-warning">
+                                {{ session('warning') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+            @endif
             @yield('content')
         </main>
     </section>
@@ -702,6 +714,6 @@
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('dist/js/demo.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
-
+@yield('script')
 </body>
 </html>

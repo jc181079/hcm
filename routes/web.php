@@ -28,7 +28,8 @@ Route::resource('estados','EstadoController');
 Route::resource('municipios','MunicipioController');
 Route::resource('clinicas','ClinicaController');
 Auth::routes();
-
+Route::post('getMunicipios', 'jqueryController@getMunicipios')->name('getMunicipios');
+//Route::get('/reactPeticionCombo?estado_id={estado_id}', 'MunicipioController@comboNivelOne')->name('rpc');
 
 Auth::routes();
 

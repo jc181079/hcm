@@ -1,19 +1,27 @@
-import React from 'react';
+import { values } from 'lodash';
+import React , { useState, useEffect} from 'react'
 import ReactDOM from 'react-dom';
+import axios from 'js/axios';
 
-function municipios() {
+const initialValues= {
+    estado_id:'',
+}
+export const municipios = ()=> {
+//export const municipios({municipios}) {
+
+    const peticionMunicipio=async () => {
+
+        base = 'http://localhost/hcm2/public/reactPeticionCombo/'
+        const response = await axios.post(base, 
+            {
+                "estado_id":values.estado_id,
+            })
+            console.log(response.data)
+    }
     return (
-        <div className="container">
-            <div className="row justify-content-center">
-                <div className="col-md-8">
-                    <div className="card">
-                        <div className="card-header">Example Component</div>
-
-                        <div className="card-body">I'm an example component!</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+       <select className="form-control" >
+           mun.map(mun = '<option key = {mun.id_municipio}>{mun.nom_municipio}</option>')
+       </select>
     );
 }
 

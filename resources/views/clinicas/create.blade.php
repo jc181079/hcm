@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.html')
 
 @section('content')
 <div class="container">
@@ -20,7 +20,7 @@
                                     </div>
                                     <!-- /.box-header -->
                                     <div class="box-body">
-                                        {!! Form::open(['route'=>'clinicas.store']) !!}
+                                        {!! Form::open(['route'=>'clinicas.store','id'=>'Form1']) !!}
                                         <div class="form-group">
                                             {{ Form::label('rif_clinica','Rif:') }}
                                             {{ Form::text('rif_clinica', null, ['class'=>'form-control']) }}
@@ -32,8 +32,11 @@
                                         <div class="form-group">
                                             {{ Form::label('estado_id','Estado:') }}
                                             {{ Form::select('estado_id', $estado, null,['class'=>'form-control','placeholder' => 'Seleccione']) }}
-                                        </div>
-                                        <div id="example"></div>
+                                        </div> 
+                                        <div class="form-group">
+                                            {{ Form::label('municipio','Municipio:') }}
+                                            {{ Form::select('municipio_id', ['N/A' => 'Seleccione'], null,['class'=>'form-control','id'=>'municipio_id']) }}
+                                        </div>                                         
                                         <div class="form-group">
                                             {{ Form::label('dir_clinica','Direccion de la clinica:') }}
                                             {{ Form::textarea('dir_clinica', null,['class'=>'form-control','placeholder' => 'Direccion de la clinica']) }}
@@ -50,6 +53,7 @@
                                             <div class="col"><a href="{{ route('clinicas.index')}}" class="btn btn-danger">Cancelar</a></div>
                                             <div class="col"><button class="btn" type="submit">Guardar</button></div>
                                         </div>
+                                        <div class="warning"> hola</div>
                                         {!! Form::close() !!}
                                     </div>
                                 <!-- /.box-body -->
@@ -66,3 +70,6 @@
 </div>
     
 @endsection
+
+
+
