@@ -17,6 +17,7 @@ class clinicas_municipio extends Model
    
    protected $fillable = [
     'clinica_id',
+    'estado_id',
     'municipio_id',  
     ];
 }

@@ -21,6 +21,6 @@ class clinica extends Model
     'dir_clinica',
     'tlf_clinica',
     'correo_clinica',
-    'municipio_id',   
+  
     ];
 }

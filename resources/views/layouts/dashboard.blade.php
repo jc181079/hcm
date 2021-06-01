@@ -39,7 +39,7 @@
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-  <script src="./././node_modules/axios/dist/axios"></script>
+  <script src="{{ asset('js/jquery.js')}}"></script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -384,7 +384,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i> Clinicas</a></li>
+            <li><a href="{{ route('clinicas.index') }}"><i class="fa fa-circle-o"></i> Clinicas</a></li>
             <li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i> Medicos/Doctores </a></li>
           </ul>
         </li>        
@@ -468,6 +468,8 @@
                 </div>                
             @endif
             @yield('content')
+            @yield('jquery')
+            
         </main>
     </section>
     <!-- /.content -->

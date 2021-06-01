@@ -1,4 +1,4 @@
-@extends('layouts.html')
+@extends('layouts.dashboard')
 
 @section('content')
 <div class="container">
@@ -53,7 +53,6 @@
                                             <div class="col"><a href="{{ route('clinicas.index')}}" class="btn btn-danger">Cancelar</a></div>
                                             <div class="col"><button class="btn" type="submit">Guardar</button></div>
                                         </div>
-                                        <div class="warning"> hola</div>
                                         {!! Form::close() !!}
                                     </div>
                                 <!-- /.box-body -->
@@ -69,6 +68,32 @@
     </div> <!-- /.row -->
 </div>
     
+@endsection
+
+@section('jquery')
+<script>
+    $(document).ready(function(){
+        $('#estado_id').on('change', function() {
+            $.ajax({
+
+                url: '{{ route('getMunicipios')}}',
+                method: 'POST',
+                id_estado: $(this).val(),
+                data: $('#Form1').serialize()
+                
+
+            }).done(function(res){
+
+                $('#municipio_id').empty();
+                $.each(res, function(index, value){
+                    console.log("<option value='" +index+ "'>"+value+"</option>");
+                    $('#municipio_id').append("<option value='" +index+ "'>"+value+"</option>");
+                });
+
+            });
+        });
+    });
+</script>
 @endsection
 
 

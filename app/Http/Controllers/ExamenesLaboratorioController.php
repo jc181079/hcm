@@ -14,7 +14,8 @@ class ExamenesLaboratorioController extends Controller
      */
     public function index()
     {
-        //
+        $ex_lab = examenes_laboratorio::all();
+        return view('examenes_laboratorio.index', compact('ex_lab'));
     }
 
     /**

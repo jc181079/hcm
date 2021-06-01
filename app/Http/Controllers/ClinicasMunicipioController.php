@@ -35,7 +35,9 @@ class ClinicasMunicipioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        clinicas_municipio::create($request->all());
+        return back()->with('info', '¡La sucursal se guardo correctamente!');
+
     }
 
     /**

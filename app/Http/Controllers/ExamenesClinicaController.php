@@ -14,7 +14,8 @@ class ExamenesClinicaController extends Controller
      */
     public function index()
     {
-        //
+        $ex_clinica = examenes_clinica::all();
+        return view('examenes_clinicas.index', compact('ex_clinica'));
     }
 
     /**

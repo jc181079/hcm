@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\especialidad_medico;
 use Illuminate\Http\Request;
+use App\especialidad_medico;
 
 class EspecialidadMedicoController extends Controller
 {
@@ -14,7 +14,9 @@ class EspecialidadMedicoController extends Controller
      */
     public function index()
     {
-        //
+        $especialidad_medico = especialidad_medico::all();
+
+        return view('especialidades_m.index', compact('especialidad_medico'));
     }
 
     /**
@@ -35,7 +37,13 @@ class EspecialidadMedicoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $especialidad_medico = new especialidad_medico();
+
+        $especialidad_medico->nom_especialidad = $request->input('nom_especialidad');
+
+        $especialidad_medico->save();
+
+        return back();
     }
 
     /**

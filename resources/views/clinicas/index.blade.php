@@ -58,6 +58,6 @@
             <!-- /.nav-tabs-custom -->
         </div>
     </div> <!-- /.row -->
-    <div id='example' >xxx</div>
+    
 </div>
 @endsection

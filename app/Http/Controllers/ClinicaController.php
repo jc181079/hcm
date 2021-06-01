@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\clinica;
 use App\estado;
+use App\municipio;
+use App\clinicas_municipio;
 use Illuminate\Http\Request;
 
 class ClinicaController extends Controller
@@ -40,6 +42,7 @@ class ClinicaController extends Controller
     {
         $clinica  = clinica::where('rif_clinica','=',$request->rif_clinica)->select('rif_clinica')->get();
         $tipo     = ''; // Tipo es la variable con la cual se le dice  a la interfaz como se va a mostrar el mensaje
+        $mensaje  = '';
         /**
          * 
          * con este condicional se esta evitando la duplicacion de informacion con respecto al rif
@@ -50,13 +53,13 @@ class ClinicaController extends Controller
             if ($clinica[0]->rif_clinica = $request->rif_clinica){
                 $tipo    = 'warning';
                 $mensaje = '¡El RIF '.$request->rif_clinica." ya se encuentra registrado en la base de datos, revise la informacion que desea ingresar";            
-            }else{
-                clinica::create($request->all());
-                $tipo    = 'info';
-                $mensaje = "Se guardo correctamente la ".$request->nom_clinica." de RIF ".$request->rif_clinica." en la base de datos";
-            }            
-        } 
-        return back()->with('warning', $mensaje);
+            }      
+        }else{
+            clinica::create($request->all());
+            $tipo    = 'info';
+            $mensaje = "Se guardo correctamente la ".$request->nom_clinica." de RIF ".$request->rif_clinica." en la base de datos";
+        }       
+        return back()->with($tipo, $mensaje);
     }
 
     /**
@@ -67,13 +70,18 @@ class ClinicaController extends Controller
      */
     public function show(clinica $clinica, Request $request)
     {
-        $xclinica= clinica::join('municipios', 'municipios.id_municipio','=','clinicas.municipio_id')
-                            ->join('estados','estados.id_estado','=','municipios.estado_id')
-                            ->select('clinicas.*','municipios.nom_municipio','estados.nom_estado')
-                            ->where('id_clinicas','=',$clinica->id_clinicas)
-                            ->get();
+        //$xclinica= clinica::select('clinicas.*','municipios.nom_municipio','estados.nom_estado')
+        //                    ->where('id_clinicas','=',$clinica->id_clinicas)
+        //                    ->get();
                             //->toSql(); //para mostrar el sql generado en pantalla
-        return view('clinicas.show', compact('xclinica'));
+        //printf($clinica);
+        $estado = estado::pluck('nom_estado','id_estado')->toArray();
+        $climun = clinicas_municipio::join('municipios','municipios.id_municipio','=','clinicas_municipios.municipio_id')
+                                        ->join('estados','estados.id_estado','=','clinicas_municipios.estado_id')
+                                        ->select('estados.nom_estado','municipios.nom_municipio','clinicas_municipios.*')
+                                        ->get();
+
+        return view('clinicas.show', compact('clinica','estado','climun'));
     }
 
     /**
@@ -84,7 +92,7 @@ class ClinicaController extends Controller
      */
     public function edit(clinica $clinica)
     {
-        //
+        return view('clinicas.edit',compact('clinica'));
     }
 
     /**
