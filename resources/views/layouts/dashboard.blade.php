@@ -352,11 +352,11 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Examenes de laboratorios</a></li>
-            <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Examenes en clinicas</a></li>
-            <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i> Especialidades de medicina</a></li>
-          <li><a href="{{ route('estados.index')}}"><i class="fa fa-circle-o"></i> Estados</a></li>
-            <li><a href="{{ route('municipios.index')}}"><i class="fa fa-circle-o"></i> Municipios</a></li>
+            <li><a href="{{ route('examenlab.index')}}"><i class="fa fa-circle-o"></i>Examenes de laboratorios</a></li>
+            <li><a href="{{ route('examencli.index')}}"><i class="fa fa-circle-o"></i>Examenes en clinicas</a></li>
+            <li><a href="{{ route('especialidadesmed.index')}}"><i class="fa fa-circle-o"></i>Especialidades de medicina</a></li>
+          <li><a href="{{ route('estados.index')}}"><i class="fa fa-circle-o"></i>Estados</a></li>
+            <li><a href="{{ route('municipios.index')}}"><i class="fa fa-circle-o"></i>Municipios</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -385,7 +385,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="{{ route('clinicas.index') }}"><i class="fa fa-circle-o"></i> Clinicas</a></li>
-            <li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i> Medicos/Doctores </a></li>
+            <li><a href="{{ route('medicos.index') }}"><i class="fa fa-circle-o"></i> Medicos/Doctores </a></li>
           </ul>
         </li>        
         <li class="treeview">
