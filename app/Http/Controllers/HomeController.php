@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\empleados;
 use App\carga_familiar;
+use App\especialidad_medico;
 
 class HomeController extends Controller
 {
@@ -31,6 +32,8 @@ class HomeController extends Controller
         $cargaFamiliar=carga_familiar::where('empleado_id',$request->user()->id)
         ->select('nom_pariente','ape_pariente','sexo_pariente','ec_pariente','ci_pariente','edad_pariente','parentesco')->get();
         //dd($empleado);
-        return view('home',compact('empleado','cargaFamiliar'));
+
+        $especialidad_medico=especialidad_medico::pluck('nom_especialidad','id_especialidad')->toArray();
+        return view('home',compact('empleado','cargaFamiliar','especialidad_medico'));
     }
 }

@@ -1,4 +1,4 @@
-@extends("medicos.layout")
+@extends("layouts.dashboard")
 
 @section("content")
 <hr>

@@ -20,7 +20,7 @@
                                     </div>
                                     <!-- /.box-header -->
                                     <div class="box-body">
-                                        {!! Form::open(['route'=>'clinicas.store','id'=>'Form1']) !!}
+                                        {!! Form::open(['route'=>'clinicas.store','id'=>'Form1','class'=>'form-inline']) !!}
                                         <div class="form-group">
                                             {{ Form::label('rif_clinica','Rif:') }}
                                             {{ Form::text('rif_clinica', null, ['class'=>'form-control']) }}

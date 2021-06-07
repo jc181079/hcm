@@ -1,10 +1,10 @@
 1) hacer el edit de clinicas
 2) hacer el delete de clinicas
 3) hacer el formulario para registrar los municipios de las sucursales de la clinica
-4) montar los medicos
 5) montar medicos especialidad
 6) montar medicos clinicas
 7) agregarle al modulo de usuario el campo de avatar para la foto
 8) modular el dashboard en archivitos
 9) depurar errores javascript de dashboard venabides y vixleri
 10) modificar todas las migraciones del sistema para agregar los campos token, method, create_at, update_at
+11) averiguar como conseguir la ip del usuario que se logueo

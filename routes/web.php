@@ -31,6 +31,7 @@ Route::resource('medicos','MedicoController');
 Route::resource('examenlab','ExamenesLaboratorioController');
 Route::resource('examencli','ExamenesClinicaController');
 Route::resource('especialidadesmed','EspecialidadMedicoController');
+Route::resource('citas','CitaController');
 Auth::routes();
 Route::post('getMunicipios', 'jqueryController@getMunicipios')->name('getMunicipios');
 Route::resource('clinicamunicipio','ClinicasMunicipioController');
