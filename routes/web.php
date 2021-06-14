@@ -18,25 +18,26 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+Route::middleware(['auth'])->group(function(){
 
-Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('carga_familiar','CargaFamiliarController');
-Route::resource('usuarios','UsuarioController');
-Route::resource('reglas','RoleController');
-Route::resource('estados','EstadoController');
-Route::resource('municipios','MunicipioController');
-Route::resource('clinicas','ClinicaController');
-Route::resource('medicos','MedicoController');
-Route::resource('examenlab','ExamenesLaboratorioController');
-Route::resource('examencli','ExamenesClinicaController');
-Route::resource('especialidadesmed','EspecialidadMedicoController');
-Route::resource('citas','CitaController');
-Auth::routes();
-Route::post('getMunicipios', 'jqueryController@getMunicipios')->name('getMunicipios');
-Route::resource('clinicamunicipio','ClinicasMunicipioController');
-//Route::get('/reactPeticionCombo?estado_id={estado_id}', 'MunicipioController@comboNivelOne')->name('rpc');
+    Route::resource('carga_familiar','CargaFamiliarController');
+    Route::resource('usuarios','UsuarioController');
+    Route::resource('reglas','RoleController');
+    Route::resource('estados','EstadoController');
+    Route::resource('municipios','MunicipioController');
+    Route::resource('clinicas','ClinicaController');
+    Route::resource('medicos','MedicoController');
+    Route::resource('examenlab','ExamenesLaboratorioController');
+    Route::resource('examencli','ExamenesClinicaController');
+    Route::resource('especialidadesmed','EspecialidadMedicoController');
+    Route::resource('citas','CitaController');
+    
+    Route::post('getMunicipios', 'jqueryController@getMunicipios')->name('getMunicipios');
+    Route::resource('clinicamunicipio','ClinicasMunicipioController');
+    //Route::get('/reactPeticionCombo?estado_id={estado_id}', 'MunicipioController@comboNivelOne')->name('rpc');
+    Route::get('/home', 'HomeController@index')->name('home');
+});
 
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
