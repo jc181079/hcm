@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\empleados;
+use App\estado;
 use App\carga_familiar;
 use App\especialidad_medico;
 
@@ -34,6 +35,15 @@ class HomeController extends Controller
         //dd($empleado);
 
         $especialidad_medico=especialidad_medico::pluck('nom_especialidad','id_especialidad')->toArray();
-        return view('home',compact('empleado','cargaFamiliar','especialidad_medico'));
+        
+        $estado_id=estado::pluck('nom_estado','id_estado')->toArray();
+
+        
+
+        
+        
+        return view('home',compact('empleado','cargaFamiliar','especialidad_medico', 'estado_id'));
+
+        
     }
 }

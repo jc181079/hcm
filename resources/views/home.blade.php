@@ -22,8 +22,7 @@
                             <b>Edad</b> <a class="pull-right">{{ $emp->edad_empleado }}</a>
                             </li>
                         </ul>
-                    @endforeach
-                    <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+                    @endforeach                    
                 </div>
             </div>
           <!-- /.box -->
@@ -94,19 +93,72 @@
               <div class="tab-pane" id="timeline">
                 <!-- The timeline -->
                 {!! Form::open(['route'=>'citas.store','id'=>'Form1','class'=>'form-inline']) !!}
-
+                  <fieldset>
+                    <legend>Ubicacion geografica de la cita</legend>
                     <div class="form-group">
-                        {{ Form::label('Fecha_cita','Fecha de la cita medica:') }}
+                        {{ Form::label('estado_id','Estado:',['class'=>'col-sm-6 control-label']) }}
+                        <div class="col-sm-10">
+                          {{ Form::select('estado_id', $estado_id, null, ['class'=>'form-control', 'placeholder'=>'Seleccione']) }}
+                        </div>
+                    </div>
+                  
+                    <div class="form-group">
+                      {{ Form::label('municipio_id','Municipio:',['class'=>'col-sm-6 control-label']) }}
+                      <div class="col-sm-10">
+                        {{ Form::select('municipio_id',['N/A' => 'Seleccione'], null,['class'=>'form-control']) }}
+                      </div>
+                    </div> 
+                  </fieldset>
+                  <fieldset>
+                    <legend>Especialista</legend>
+                    <div class="form-group">
+                        {{ Form::label('especialidad_medico','Especialidad:',['class'=>'col-sm-6 control-label']) }}
+                        <div class="col-sm-10">
+                          {{ Form::select('especialidad_medico', $especialidad_medico, null, ['class'=>'form-control','placeholder'=>'Seleccione']) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                      {{ Form::label('medico_id','medico:',['class'=>'col-sm-6 control-label']) }}
+                      <div class="col-sm-10">
+                        {{ Form::select('medico_id', ['N/A' => 'Seleccione'], null, ['class'=>'form-control']) }}
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      {{ Form::label('ci_beneficiario','Cedula Paciente:',['class'=>'col-sm-6 control-label']) }}
+                      <div class="col-sm-10">
+                        {{ Form::text('ci_beneficiario', null, ['class'=>'form-control']) }}
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      {{ Form::label('dolencia_descripcion','Dolencia:',['class'=>'col-sm-6 control-label']) }}
+                      <div class="col-sm-10">
+                        {{ Form::text('dolencia_descripcion', null, ['class'=>'form-control']) }}
+                      </div>
+                    </div>
+                  </fieldset>
+                  <fieldset>
+                    <legend>Lugar y fecha</legend> 
+                    <div class="form-group">
+                      {{ Form::label('Fecha_cita','Fecha:',['class'=>'col-sm-6 control-label']) }}
+                      <div class="col-sm-10">
                         {{ Form::date('fecha_cita', \Carbon\Carbon::now(), ['class'=>'form-control']) }}
+                      </div>
                     </div>
-
                     <div class="form-group">
-                        {{ Form::label('especialidad_medico','Especialidad Medica:') }}
-                        {{ Form::select('especialidad_medico', $especialidad_medico, ['class'=>'form-control']) }}
+                      {{ Form::label('clinica_id','Clinica:',['class'=>'col-sm-6 control-label']) }}
+                      <div class="col-sm-10">
+                        {{ Form::select('clinica_municipio_id', ['N/A' => 'Seleccione'], null, ['class'=>'form-control', 'placeholder'=>'Seleccione']) }}
+                      </div>
                     </div>
-
-                    <div class="row">
-                        <div class="col"><button class="btn" type="submit">Guardar</button></div>
+                    <div class="form-group">
+                      
+                      <div class="col-sm-10">
+                        {{ Form::hidden('estatus_cita', 'Solicitada', ['class'=>'form-control']) }}
+                      </div>
+                    </div>
+                  </fieldset>
+                    <div class="box">
+                        <div class="box-body"><button class="btn btn-success btn-block" type="submit">Apartar cita</button></div>
                     </div>
                 {!! Form::close() !!}
                 
@@ -176,5 +228,49 @@
       </div>
       <!-- /.row -->
 </div>
+<script>
+  $(document).ready(function(){
+      // inicio estado municipio
+      $('#estado_id').on('change', function() {
+          $.ajax({
+
+              url: '{{ route('getMunicipios')}}',
+              method: 'POST',
+              id_estado: $(this).val(),
+              data: $('#Form1').serialize()                                    
+
+          }).done(function(res){
+
+              $('#municipio_id').empty();
+              $.each(res, function(index, value){
+                  console.log("<option value='" +index+ "'>"+value+"</option>");
+                  $('#municipio_id').append("<option value='" +index+ "'>"+value+"</option>");
+              });
+
+          });
+      });
+      //fin estado municipio
+
+      //inicio especialidad medico
+      $('#especialidad_medico').on('change', function() {        
+          $.ajax({
+             
+              url: '{{ route('getMedicoEspecialidad')}}',
+              method: 'POST',
+              id_especialidad: $(this).val(),
+              data: $('#Form1').serialize()     
+              //el error al parecer es que no esta enviando el dato                               
+
+          }).done(function(res){
+                       
+              $('#medico_id').empty();
+              $.each(res, function(index, value){
+                  console.log("<option value='" +index+ "'>"+value+"</option>");
+                  $('#medico_id').append("<option value='" +index+ "'>"+value+"</option>");
+              });
+          });
+      });
+  });
+</script>
 @endsection
 

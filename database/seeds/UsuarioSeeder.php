@@ -11,6 +11,6 @@ class UsuarioSeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory(UserFactory::class, 1)->create();
     }
 }

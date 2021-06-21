@@ -11,7 +11,7 @@ class medicos_especialidad_honorario extends Model
     *
     * @var string
     */
-   protected $table = 'medicos_especialidades_honorarios';
+   protected $table = 'medicos_especialidad_honorarios';
 
    protected $primaryKey = 'id_medico_especialidades';
    
