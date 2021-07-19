@@ -36,6 +36,21 @@ class CitaController extends Controller
     public function store(Request $request)
     {
         //
+        $cita=new cita;
+        $cita->fecha_cita             = $request->input('fecha_cita');
+        $cita->clinica_municipio_id   = $request->input('clinica_municipio_id');
+        $cita->especialidad_medico_id = $request->input('especialidad_medico_id');
+        $cita->medico_id              = $request->input('medico_id'); 
+        $cita->ci_beneficiario        = $request->input('ci_beneficiario');
+        $cita->dolencia_descripcion   = $request->input('dolencia_descripcion');
+        $cita->estatus_cita           = $request->input('estatus_cita');
+        $cita->pre_compromiso         = $request->input('pre_compromiso');
+        $cita->save();
+
+        Session::flash("message","!! Se registro correctamente la cita para ".$cita->fecha_cita." ");
+
+        return back();
+ 
     }
 
     /**

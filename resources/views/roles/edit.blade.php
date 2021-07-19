@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">        
         <!-- /.col -->
-        <div class="col-md-12">
+        <div class="col-md-11">
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active"><a href="#activity" data-toggle="tab">Reglas</a></li>
@@ -13,34 +13,20 @@
                 <div class="active tab-pane" id="activity">
                     <section class="content">
                         <div class="row">
-                            <div class="col-xs-12">
+                            <div class="col-md-11">
                                 <div class="box">
                                     <div class="box-header">
-                                        <h3 class="box-title">Lista de reglas de seguridad</h3>
+                                        <h3 class="box-title">Lista de reglas de seguridad para los usuarios</h3>
+                                        <div class="pull-right">
+                                            <a href="{{ route('roles.index')}}" class="btn btn-info">Atras</a>
+                                        </div>
                                     </div>
                                     <!-- /.box-header -->
                                     <div class="box-body">
-                                        {!! Form::model($role,['route'=>'reglas.update',$role->id]) !!}
-                                        <div class="form-group">
-                                            {{ Form::label('name','Nombre:') }}
-                                            {{ Form::text('name', null, ['class'=>'form-control']) }}
-                                        </div>
-                                        <div class="form-group">
-                                            {{ Form::label('slug','Slug:') }}
-                                            {{ Form::text('slug', null, ['class'=>'form-control']) }}
-                                        </div>
-                                        <div class="form-group">
-                                            {{ Form::label('description','Description:') }}
-                                            {{ Form::text('description', null, ['class'=>'form-control']) }}
-                                        </div>
-                                        <div class="form-group">
-                                            {{ Form::label('special','Acceso Especial:') }}
-                                            {{ Form::select('special', ['all-access'=>'Acceso Total','no-access'=>'Sin Acceso'], null,['class'=>'form-control','placeholder' => 'Seleccione']) }}
-                                        </div>
-                                        <div class="row">
-                                            <div class="col"><a href="{{ route('reglas.index')}}" class="btn btn-danger">Cancelar</a></div>
-                                            <div class="col"><button class="btn" type="submit">Guardar</button></div>
-                                        </div>
+                                        {!! Form::model($role, ['route' => ['roles.update', $role->id], 'method' => 'PUT']) !!}
+
+                                        @include('roles.form.form')
+
                                         {!! Form::close() !!}
                                     </div>
                                 <!-- /.box-body -->

@@ -17,12 +17,13 @@ class cita extends Model
    
    protected $fillable = [
     'fecha_cita',
-    'clinica_medicos_horarios_id',
     'clinica_municipio_id',
+    'especialidad_medico_id',
     'medico_id',
-    'medico_especialidad_honorarios_id',
     'ci_beneficiario',
+    'dolencia_descripcion',
     'estatus_cita',
+    'pre_compromiso'
     
     ];
 }

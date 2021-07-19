@@ -16,7 +16,7 @@
                             <div class="col-xs-12">
                                 <div class="box">
                                     <div class="box-header">
-                                    <h3 class="box-title"><a href="{{ route('reglas.create')}}" class="btn btn-success">Nueva regla de usuario</a></h3>
+                                    <h3 class="box-title"><a href="{{ route('roles.create')}}" class="btn btn-success">Nueva regla de usuario</a></h3>
                                     </div>
                                     <!-- /.box-header -->
                                     <div class="box-body">
@@ -36,7 +36,7 @@
                                                         <td>{{$roles->name}}</td>
                                                         <td>{{$roles->slug}}</td>
                                                         <td>{{$roles->special}}</td>
-                                                        <td><a href="{{route('reglas.edit',$roles->id)}}"><i class="fa fa-circle-o"></i> editar </a></td>                                                        
+                                                        <td><a href="{{route('roles.edit',$roles->id)}}"><i class="fa fa-circle-o"></i> editar </a></td>                                                        
                                                     </tr>
                                                 @endforeach                                    
                                             </tbody>

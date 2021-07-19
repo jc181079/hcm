@@ -8,3 +8,4 @@
 9) depurar errores javascript de dashboard venabides y vixleri
 10) modificar todas las migraciones del sistema para agregar los campos token, method, create_at, update_at
 11) averiguar como conseguir la ip del usuario que se logueo
+12) upload en laravel

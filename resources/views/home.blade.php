@@ -112,9 +112,9 @@
                   <fieldset>
                     <legend>Especialista</legend>
                     <div class="form-group">
-                        {{ Form::label('especialidad_medico','Especialidad:',['class'=>'col-sm-6 control-label']) }}
+                        {{ Form::label('especialidad_id','Especialidad:',['class'=>'col-sm-6 control-label']) }}
                         <div class="col-sm-10">
-                          {{ Form::select('especialidad_medico', $especialidad_medico, null, ['class'=>'form-control','placeholder'=>'Seleccione']) }}
+                          {{ Form::select('especialidad_id', $especialidad_medico, null, ['class'=>'form-control','placeholder'=>'Seleccione']) }}
                         </div>
                     </div>
                     <div class="form-group">
@@ -147,7 +147,7 @@
                     <div class="form-group">
                       {{ Form::label('clinica_id','Clinica:',['class'=>'col-sm-6 control-label']) }}
                       <div class="col-sm-10">
-                        {{ Form::select('clinica_municipio_id', ['N/A' => 'Seleccione'], null, ['class'=>'form-control', 'placeholder'=>'Seleccione']) }}
+                        {{ Form::select('clinica_municipio_id', ['N/A' => 'Seleccione'], null, ['class'=>'form-control','id'=>'clinica_municipio_id']) }}
                       </div>
                     </div>
                     <div class="form-group">
@@ -252,7 +252,7 @@
       //fin estado municipio
 
       //inicio especialidad medico
-      $('#especialidad_medico').on('change', function() {        
+      $('#especialidad_id').on('change', function() {        
           $.ajax({
              
               url: '{{ route('getMedicoEspecialidad')}}',
@@ -267,6 +267,27 @@
               $.each(res, function(index, value){
                   console.log("<option value='" +index+ "'>"+value+"</option>");
                   $('#medico_id').append("<option value='" +index+ "'>"+value+"</option>");
+              });
+          });
+      });
+
+      //inicio clinica se va a llenar en virtud al medico que se haya seleccionado
+      $('#medico_id').on('change', function() {      
+          console.log(" valor medico" +$(this).val()+" ");
+          $.ajax({
+             
+             url: '{{ route('getClinica')}}',
+             method: 'POST',
+             id_especialidad: $(this).val(),
+             data: $('#Form1').serialize()     
+             //el error al parecer es que no esta enviando el dato                               
+
+         }).done(function(res){
+                       
+              $('#clinica_municipio_id').empty();
+              $.each(res, function(index, value){
+                  console.log("<option value='" +index+ "'>"+value+"</option>");
+                  $('#clinica_municipio_id').append("<option value='" +index+ "'>"+value+"</option>");
               });
           });
       });

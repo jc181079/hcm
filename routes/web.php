@@ -34,8 +34,13 @@ Route::middleware(['auth'])->group(function(){
     Route::resource('especialidadesmed','EspecialidadMedicoController');
     Route::resource('citas','CitaController');
     
+    /**
+     * Rutas de jquery
+     */
     Route::post('getMunicipios', 'jqueryController@getMunicipios')->name('getMunicipios');
     Route::post('getMedicoEspecialidad', 'jqueryController@getMedicoEspecialidad')->name('getMedicoEspecialidad');
+    Route::post('getClinica', 'jqueryController@getClinica')->name('getClinica');
+
     //Route::get('getMedicoEspecialidad?_token={_token}&estado_id={estado_id}&municipio_id={municipio_id}&especialidad_medico={especialidad_medico}&medico_id={medico_id}&ci_beneficiario={ci_beneficiario}&dolencia_descripcion={dolencia_descripcion}&fecha_cita={fecha_cita}&estatus_cita={estatus_cita}', 'jqueryController@getMedicoEspecialidad')->name('getMedicoEspecialidad');
     //http://localhost/hcm2/public/getMedicoEspecialidad?_token=iKSpnFs0nV3x04HbiQ0IqkmnNmNmjibComAMl1eH&estado_id=&municipio_id=N%2FA&especialidad_medico=2&medico_id=0&ci_beneficiario=&dolencia_descripcion=&fecha_cita=2021-06-20&clinica_municipio_id=&estatus_cita=Solicitada
     Route::resource('clinicamunicipio','ClinicasMunicipioController');

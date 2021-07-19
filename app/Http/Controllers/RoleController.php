@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 
-//use \Caffeinated\Shinobi\Models\Role;
-use App\role;
+use \Caffeinated\Shinobi\Models\Role;
+use Caffeinated\Shinobi\Models\Permission;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
@@ -18,6 +18,7 @@ class RoleController extends Controller
     {
         //
         $role=role::paginate(15);
+        //dd($role);
         return view('roles.index',compact('role'));
     }
 
@@ -28,7 +29,9 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view('roles.create');
+        $permissions = Permission::get();
+
+        return view('roles.create', compact('permissions'));
     }
 
     /**
@@ -60,10 +63,13 @@ class RoleController extends Controller
      * @param  \App\role  $reglas
      * @return \Illuminate\Http\Response
      */
-    public function edit(role $reglas)
+    public function edit(role $role)
     {
-        dd($reglas);
-        //return view('roles.edit', compact('reglas'));
+        //dd($role);
+        $permissions = Permission::get();
+        //$role = role::get();
+        //dd($role);
+        return view('roles.edit', compact('role','permissions'));
     }
 
     /**
@@ -73,9 +79,15 @@ class RoleController extends Controller
      * @param  \Caffeinated\Shinobi\Models\Role  $reglas
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Role $reglas)
+    public function update(Request $request, Role $role)
     {
-        //
+         //actualiza un role
+        $role->update($request->all());
+
+        //actualiza los permisos
+        $role->permissions()->sync($request->get('permissions'));
+
+        return redirect()->route('roles.index', $role->id)->with('info', 'Role actualizado con exito..');
     }
 
     /**
@@ -84,8 +96,10 @@ class RoleController extends Controller
      * @param  \Caffeinated\Shinobi\Models\Role  $reglas
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Role $reglas)
+    public function destroy(Role $role)
     {
-        //
+        $role->delete();
+
+        return back()->with('info', 'Roles eliminado correctamente...');
     }
 }

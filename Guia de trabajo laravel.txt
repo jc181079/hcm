@@ -429,3 +429,38 @@ en la parte de $fillable agregue la cantidad de campos que posea la tabla
         ]);
 
 3)   se modifica el formulario de registro ''
+
+
+     -------------------------------------------------------------------------------
+     *** SOLUCION DE ERROR AL MOMENTO DE CLONAR EL PROYECTO EN WINDOWS           ***
+     -------------------------------------------------------------------------------
+
+al momento de tratar de ejecutar el proyecto ya sea en xampp o wammp por lo general presenta
+un error ya que no puede modificar los archivos de session del proyecto y muestra la ruta de la 
+maquina en donde fue realizado el proyecto, en el caso de que el equipo tuviera linux, mostrara 
+una ruta en cuestion, para solucionar este problema deben hacer lo siguiente:
+
+1) ejecuta los siguientes comandos, en la consola de windows:
+    php artisan config:cache
+    php artisan cache:clear
+
+en el caso de que esto no fuera suficienta deberan cambiar los atributos de permisas de modificacion 
+y eliminacion de las carpetas de /storage/framework/cache y /storage/framework/sessions en windows
+
+
+
+     -------------------------------------------------------------------------------
+     *** SOLUCION DE ERROR 500 AJAX                                              ***
+     -------------------------------------------------------------------------------
+
+Este erros se debe a que hay un error en el query sql que se desea ejecutar, para observar el detalle
+haga estos pasos:
+     1) hacer boton secundario del raton en la pagina web y seleccionar la opcion inspeccion
+     2) hacer clic en NETWORK y buscar el error en la lista y luego hacer clic en la opcion a la izquierda del nombre
+        y luego hacer clic en preview
+     3) abra el archivo controller donde se esta realizando la consulta sql y modifique
+     4) cuando la consulta sql tenga un error de sintaxis usa el phpmyadmin para depurar el error y hacer las modificaciones
+        pertinentes en el constructor del orm
+     5) prueba hasta que muestre en NETWORK el status 200 y en preview muestre resultados validos
+     6) en caso de que no quiera mostrar la informacion en el objeto revisa que el objeto html posea el atributo 'id' 
+        y que este sea escrito igual que el atributo 'name'

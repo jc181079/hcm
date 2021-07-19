@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Caffeinated\Shinobi\Models\Role;
 use Illuminate\Http\Request;
 
 class UsuarioController extends Controller
@@ -14,9 +15,9 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        //
         $usuarios=User::paginate(15);
-        return view('auth.index',compact('usuarios'));
+        $usuarios_e = User::onlyTrashed()->get();
+        return view('auth.usuarios.index',compact('usuarios', 'usuarios_e'));
     }
 
     /**
@@ -26,7 +27,7 @@ class UsuarioController extends Controller
      */
     public function create()
     {
-        //
+        return view('auth.usuarios.create');
     }
 
     /**
@@ -37,7 +38,18 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $usuario = new User();
+
+        $usuario->ci = $request->input('ci');
+        $usuario->name = $request->input('name');
+        $usuario->email = $request->input('email');
+        $usuario->password = bcrypt($request->input('password'));
+        $usuario->role = $request->input('role');
+        $usuario->status = 'activo';
+
+        $usuario->save();
+
+        return back();
     }
 
     /**
@@ -57,9 +69,22 @@ class UsuarioController extends Controller
      * @param  \App\usuario  $usuario
      * @return \Illuminate\Http\Response
      */
-    public function edit(usuario $usuario)
+    public function edit(user $user)
     {
-        //
+        $roles = Role::get();
+        return view('auth.usuarios.edit',compact('user','roles'));
+    }
+
+    public function update(Request $request, User $user)
+    {
+        dd($user->roles());
+        //actualiza el usuario
+        $user->update($request->all());
+
+        //actualiza los roles
+        $user->role()->sync($request->get('roles'));
+
+        return redirect()->route('auth.usuarios.index', $user->id)->with('info', 'Usuario actualizado con exito..');
     }
 
     /**
@@ -69,9 +94,15 @@ class UsuarioController extends Controller
      * @param  \App\usuario  $usuario
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, usuario $usuario)
+    public function update_status(Request $request, $id)
     {
-        //
+        $usuario = User::findOrFail($id);
+
+        $usuario->status = 'desactivado';
+
+        $usuario->save();
+
+        return back();
     }
 
     /**
@@ -80,8 +111,15 @@ class UsuarioController extends Controller
      * @param  \App\usuario  $usuario
      * @return \Illuminate\Http\Response
      */
-    public function destroy(usuario $usuario)
+    public function destroy($id)
     {
-        //
+        $usuario = User::find($id);
+
+        $usuario->status = 'eliminado';
+
+        $usuario->delete();
+        $usuario->save();
+
+        return back();
     }
 }
